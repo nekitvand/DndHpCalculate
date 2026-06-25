@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ДнД ХП Калькулятор 2024</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+        .hp-section {
+            margin-bottom: 30px;
+        }
+        .hp-section h2 {
+            color: #4ecca3;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .hp-max-section {
+            margin-bottom: 15px;
+        }
+        .hp-max-section h2 {
+            color: #f39c12;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        .hp-display {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .hp-input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-size: 48px;
+            font-weight: bold;
+            text-align: center;
+            -webkit-appearance: none;
+            -moz-appearance: textfield;
+        }
+        .hp-input::-webkit-outer-spin-button,
+        .hp-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .hp-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(78, 204, 163, 0.5);
+        }
+        .hp-value {
+            font-size: 48px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(78, 204, 163, 0.5);
+        }
+        .hp-label {
+            color: #aaa;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        button {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-green {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+        }
+        .btn-green:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(46, 204, 113, 0.4);
+        }
+        .btn-red {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+        }
+        .btn-red:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(231, 76, 60, 0.4);
+        }
+        .temp-hp {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .temp-hp input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-size: 16px;
+            text-align: center;
+            -webkit-appearance: none;
+            -moz-appearance: textfield;
+        }
+        .temp-hp input::-webkit-outer-spin-button,
+        .temp-hp input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .temp-hp input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(78, 204, 163, 0.5);
+        }
+        .temp-hp-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .temp-hp-buttons button {
+            flex: 1;
+            padding: 8px;
+            font-size: 14px;
+        }
+        .info {
+            text-align: center;
+            color: #888;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚔️ ДнД ХП Калькулятор ⚔️</h1>
+        
+        <div class="hp-section">
+            <h2>Максимальное ХП</h2>
+            <input type="number" class="hp-input" id="maxHpValue" value="0" min="0">
+        </div>
+        
+        <div class="hp-section">
+            <h2>Основное ХП</h2>
+            <div class="hp-display">
+                <input type="number" class="hp-input" id="hpValue" value="0" min="0" style="display:none">
+                <div class="hp-value" id="hpDisplayValue">0</div>
+                <div class="hp-label">Хиты</div>
+            </div>
+            <div class="buttons">
+                <button class="btn-red" onclick="increaseHP(event)">−1</button>
+                <button class="btn-green" onclick="decreaseHP(event)">+1</button>
+            </div>
+        </div>
+        
+        <div class="temp-hp">
+            <label for="tempHpInput">Временное ХП:</label>
+            <input type="number" id="tempHpInput" value="0" min="0">
+            <div class="temp-hp-buttons">
+                <button class="btn-red" onclick="decreaseTempHP()">−1</button>
+                <button class="btn-green" onclick="increaseTempHP()">+1</button>
+            </div>
+        </div>
+        
+        <p class="info">ДнД 2024 Edition</p>
+    </div>
+
+    <script>
+        let hp = 0;
+        let maxHp = 0;
+        let tempHp = 0;
+        
+        function updateDisplay() {
+            document.getElementById('hpValue').value = hp;
+            document.getElementById('maxHpValue').value = maxHp;
+            document.getElementById('tempHpInput').value = tempHp;
+            
+            const displayValue = maxHp - hp + tempHp;
+            document.getElementById('hpDisplayValue').textContent = displayValue;
+        }
+        
+        function decreaseHP() {
+            hp--;
+            updateDisplay();
+        }
+        
+        function increaseHP() {
+            hp++;
+            updateDisplay();
+        }
+        
+        function increaseTempHP() {
+            tempHp++;
+            updateDisplay();
+        }
+        
+        function decreaseTempHP() {
+            tempHp--;
+            updateDisplay();
+        }
+        
+        document.getElementById('hpValue').addEventListener('input', function() {
+            hp = parseInt(this.value) || 0;
+            updateDisplay();
+        });
+        
+        document.getElementById('maxHpValue').addEventListener('input', function() {
+            maxHp = parseInt(this.value) || 0;
+            updateDisplay();
+        });
+        
+        document.getElementById('tempHpInput').addEventListener('input', function() {
+            tempHp = parseInt(this.value) || 0;
+            updateDisplay();
+        });
+    </script>
+</body>
+</html>
